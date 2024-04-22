@@ -38,8 +38,11 @@ def moveCircle():
 
     canvas.move(circle, 0, circleVelocity) # Move the circle right by 0 and down by 1 pixel : Simulating gravity
 
+    if gameIsRunning == False:
+        canvas.create_text(400, 400, text="GAME OVER", fill="red", font=("Impact", 40))
     
     if coordsOfCircle[3] > 800:
+        gameIsRunning = False
         return
     
     # coordsOfCircle[0] is left, coordsOfCircle[1] is top, coordsOfCircle[2] is right, coordsOfCircle[3] is bottom
@@ -52,7 +55,6 @@ def moveCircle():
                 print("ITS TOUCHING THE PIPE")
                 print("Circle: ", coordsOfCircle)
                 print("Pipe: ", coordsOfPipe)
-                canvas.create_text(400, 400, text="GAME OVER", fill="red", font=("Impact", 40))
                 gameIsRunning = False
                 return
     root.after(20, moveCircle)
@@ -93,6 +95,8 @@ def movePipes():
                 canvas.move(pipePart, -1, 0)
     
     root.after(10, movePipes)
+
+
 
 
 
