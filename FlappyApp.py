@@ -111,6 +111,7 @@ def movePipes():
 def gameOver():
     root.unbind("<space>")
     gameIsRunning = False
+    
     canvas.create_text(400, 400, text="GAME OVER", fill="red", font=("Impact", 40))
 
 

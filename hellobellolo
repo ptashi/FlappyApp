@@ -1,17 +1,21 @@
 import tkinter as tk 
 import random
-import time
+from PIL import Image, ImageTk
 
 # Game settings
 WIDTH = 800
 HEIGHT = 800
 GRAVITY = 0.1
-JUMP_POWER = 2.5
+JUMP_POWER = 2.7
+BACKGROUND_LIST = []
+BACKGROUND_SPEED = 1  # Adjust the speed of background movement
 
 root = tk.Tk()
 root.title("Flappy App")
 canvas = tk.Canvas(root, width=WIDTH, height=HEIGHT, bg="skyblue")
 canvas.pack()
+
+
 
 circleVelocity = 0
 
@@ -22,6 +26,26 @@ def keyPressed(event):
  
 root.bind("<Key>", keyPressed)
 
+# original_bg = tk.PhotoImage(file="assets/background.png")
+# original_bg_flipped = tk.PhotoImage(file="assets/background_flipped.png")
+
+original_bg = Image.open("assets/background.png")
+original_bg_flipped = Image.open("assets/background_flipped.png")
+
+original_bg = original_bg.resize((original_bg.width, HEIGHT))
+original_bg_flipped = original_bg_flipped.resize((original_bg_flipped.width, HEIGHT))
+
+BACKGROUND_WIDTH = original_bg.width
+
+bg = ImageTk.PhotoImage(original_bg)
+bg_flipped = ImageTk.PhotoImage(original_bg_flipped)
+
+# Create the background
+BACKGROUND_LIST.append(canvas.create_image(0, 0, anchor="nw", image=bg))
+BACKGROUND_LIST.append(
+    canvas.create_image(bg.width(), 0, anchor="nw", image=bg_flipped)
+)
+
 # Create the circle
 circle = canvas.create_oval(42, 70, 92, 100, fill="red")
 
@@ -29,7 +53,6 @@ gameIsRunning = True
 
 
 def moveCircle():
-    global gameIsRunning
     global circleVelocity
     
     if not gameIsRunning:
@@ -43,8 +66,7 @@ def moveCircle():
 
     
     if coordsOfCircle[3] > HEIGHT or coordsOfCircle[1] < 0:
-        gameIsRunning = False
-        canvas.create_text(400, 400, text="GAME OVER", fill="red", font=("Impact", 40))
+        gameOver()
         return
     
     coordsOfCircle = canvas.coords(circle)
@@ -56,7 +78,7 @@ def moveCircle():
         top_pipe_coords = canvas.coords(pipe[0])
         bottom_pipe_coords = canvas.coords(pipe[1])
         
-     # Checks if the left side of the bird is to the left of the right side of the top pipe.
+    # Checks if the left side of the bird is to the left of the right side of the top pipe.
     # Checks if the right side of the bird is to the right of the left side of the top pipe
     # Checks if the bottom of the bird is below the bottom side of the top pipe.
     # Checks if the top side of bird is above the bottom side of the top pipe.
@@ -64,9 +86,8 @@ def moveCircle():
             coordsOfCircle[1] < top_pipe_coords[3]  and coordsOfCircle[3] > top_pipe_coords[1]) or \
            (coordsOfCircle[0] < bottom_pipe_coords[2]  and coordsOfCircle[2] > bottom_pipe_coords[0] and
             coordsOfCircle[1] < bottom_pipe_coords[3]  and coordsOfCircle[3] > bottom_pipe_coords[1]):
-         gameIsRunning = False
-         canvas.create_text(400, 400, text="GAME OVER", fill="red", font=("Impact", 40))
-         return
+            gameOver()
+            return
     root.after(20, moveCircle)
 
 
@@ -97,20 +118,52 @@ def movePipes():
         gapPosition = random.randint(100,600)
         spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe, bottomOfTheTopPipe)
 
-    for pipe in listOfPipes:
+    listOfPipesCopy = listOfPipes.copy()
+    for pipe in listOfPipesCopy:
         for pipePart in pipe:
             if canvas.coords(pipePart)[2] < 0:
                 canvas.delete(pipePart)
-                listOfPipes.remove(pipe)
-                break
+                if pipe in listOfPipes:
+                    listOfPipes.remove(pipe)
             else:
                 canvas.move(pipePart, -1, 0)
     
     root.after(10, movePipes)
 
+def moveBackground():
+    if not gameIsRunning:
+        return
+    for background in BACKGROUND_LIST:
+        canvas.move(
+            background, -BACKGROUND_SPEED, 0
+        )  # Moves canvas horizontally to the left by subtracting the x coordinate
+
+        bg_coords = canvas.bbox(background)  # Retrieves background coordinates
+
+        if bg_coords[2] <= 0:  # Checks if the background image is set to the left edge
+            canvas.moveto(
+                background, BACKGROUND_WIDTH, 0
+            )  # Moves background horizontally right 
+            print("Background moved to the right edge")
+    root.after(20, moveBackground)
+
+def gameOver():
+    global gameIsRunning
+    gameIsRunning = False
+    canvas.create_text(400, 400, text="GAME OVER", fill="red", font=("Impact", 40))
+
+def myTest():
+    print("Button clicked")
+    btn_window.destroy
+
+# Create a Button
+btn = tk.Button(canvas, width=20, height=10, text = 'Click me !', bd = '5', padx = 0, pady=0, command = myTest)
+btn_window = canvas.create_window(WIDTH / 2, HEIGHT / 2, anchor = 'center', window = btn)
+
 
 
 moveCircle()
+moveBackground()
 movePipes()
 root.mainloop()
 
