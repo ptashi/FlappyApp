@@ -22,7 +22,7 @@ You can check this by looking at your terminal and checking if it says `(py_env)
 
 ### If it doesn't say (py_venv)
 
-Open up you VSCode Command Pallete (Ctrl+Shift+P or Cmd+Shift+P) and type `run task` and select `Tasks: Run Task`
+Open up you VSCode Command Pallete (Ctrl+Shift+P or Cmd+Shift+P or F1) and type `run task` and select `Tasks: Run Task`
 
 **Note:** _If this doesn't work, you can manually go to command pallete by clicking the settings cog in the bottom left of VSCode, and then click the option for Command Pallete_
 
