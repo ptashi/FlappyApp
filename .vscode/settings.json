@@ -1,4 +1,6 @@
 {
-	// "code-runner.runInTerminal": true,
-	"code-runner.executorMap": { "python": "$pythonPath -u $fullFileName" }
+	"python.terminal.activateEnvInCurrentTerminal": true,
+	"python.defaultInterpreterPath": "${workspaceFolder}/venv/Scripts/python"
+	// "code-runner.runInTerminal": true
+	// "code-runner.executorMap": { "python": "$pythonPath -u $fullFileName" }
 }
