@@ -1,14 +1,14 @@
 # Basic Github Instructions
 
-Fetch Origin means to update the repository on your end. (updating will refresh the files so that you computer know there are changes, but wont actually change any of the files on the computer)
+`Fetch Origin` means to update the repository on your end. (updating will refresh the files so that you computer know there are changes, but wont actually change any of the files on the computer)
 
 **Note:** _You should always `Fetch Origin` before working on the project to check if there were any changes made by others_
 
 ![screenshot](.github/fetchCheck.png)
 
-Once you Fetch Origin, if there are changes to the repository, Pull Origin will be an option.
+Once you `Fetch Origin`, if there are changes to the repository, `Pull Origin` will be an option.
 
-When you Pull Origin, github desktop will change the files on your computer to match the current version of the github project.
+When you `Pull Origin`, github desktop will change the files on your computer to match the current version of the github project.
 
 # Virtual Enviroment
 
