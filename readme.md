@@ -6,13 +6,16 @@ Fetch Origin means to update the repository on your end. (updating will refresh 
 
 ![screenshot](.github/fetchCheck.png)
 
-Once you Fetch Origin, if there are changes to the repository, Pull Origin will be an option
-When you Pull Origin, github desktop will change the files on your computer to match the current version of the github project
+Once you Fetch Origin, if there are changes to the repository, Pull Origin will be an option.
+
+When you Pull Origin, github desktop will change the files on your computer to match the current version of the github project.
 
 # Virtual Enviroment
 
 Now if your project directory already has a `py_venv` folder, your virtual environment should already be working
+
 **Note:** _If you have any other virtual enviroment folders such as venv, .venv, or conda folders, delete them_
+
 You can check this by looking at your terminal and checking if it says `(py_env)` before your project path
 
 ![venvCheck](.github/venvCheck.png)
@@ -20,6 +23,7 @@ You can check this by looking at your terminal and checking if it says `(py_env)
 ### If it doesn't say (py_venv)
 
 Open up you VSCode Command Pallete (Ctrl+Shift+P or Cmd+Shift+P) and type `run task` and select `Tasks: Run Task`
+
 **Note:** _If this doesn't work, you can manually go to command pallete by clicking the settings cog in the bottom left of VSCode, and then click the option for Command Pallete_
 
 ![runTask](.github/runTask.png)
