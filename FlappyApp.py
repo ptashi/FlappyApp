@@ -86,6 +86,7 @@ happy = canvas.create_image(100, HEIGHT / 2, anchor="center", image=happyUp)
 
 coordsOfHappy = canvas.bbox(happy)
 
+
 def moveCircle():
     if not gameIsRunning:
         return
@@ -111,8 +112,10 @@ def moveCircle():
     for pipe in listOfPipes:  # pipe = [top_pipe, bottom_pipe]
         top_pipe_coords = canvas.coords(pipe[0])
         bottom_pipe_coords = canvas.coords(pipe[1])
+        point_given = pipe[2]
 
-        if coordsOfHappy[0] > top_pipe_coords[0]:
+        if point_given == False and coordsOfHappy[0] > top_pipe_coords[2]:
+            pipe[2] = True
             updateScoreCount()
 
         # Checks if the left side of the bird is to the left of the right side of the top pipe.
@@ -137,9 +140,7 @@ def moveCircle():
 
 
 # Create the pipes
-listOfPipes = (
-    []
-)  # List of all the pipes , data formar = [ [top_pipe, bottom_pipe], [top_pipe, bottom_pipe], ... ]
+listOfPipes = []  # List of all the pipes
 
 
 def spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe, bottomOfTheTopPipe):
@@ -153,7 +154,7 @@ def spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe, bottomOfTheTopPip
         HEIGHT,
         fill="darkgreen",
     )
-    listOfPipes.append([top_pipe, bottom_pipe])
+    listOfPipes.append([top_pipe, bottom_pipe, False])
 
 
 xOfPipe = 800
@@ -168,6 +169,8 @@ def movePipes():
     if not gameIsRunning:
         return
 
+    canvas.tag_raise(score_text)
+
     global gapPosition
     gapPosition = random.randint(int(gapOfPipe * 0.5), int(HEIGHT - gapOfPipe * 1.5))
     if len(listOfPipes) == 0:
@@ -177,13 +180,14 @@ def movePipes():
 
     listOfPipesCopy = listOfPipes.copy()
     for pipe in listOfPipesCopy:
-        for pipePart in pipe:
-            if canvas.coords(pipePart)[2] < 0:
-                canvas.delete(pipePart)
-                if pipe in listOfPipes:
-                    listOfPipes.remove(pipe)
-            else:
-                canvas.move(pipePart, -1, 0)
+        if canvas.coords(pipe[0])[2] < 0:
+            canvas.delete(pipe[0])
+            canvas.delete(pipe[1])
+            if pipe in listOfPipes:
+                listOfPipes.remove(pipe)
+        else:
+            canvas.move(pipe[0], -1, 0)
+            canvas.move(pipe[1], -1, 0)
     root.after(10, movePipes)
 
 
@@ -227,7 +231,7 @@ def gameOver():
     def game_over_btn_click():
         global score
         score = 0
-        canvas.itemconfig(t, text="Score: " + str(score))
+        canvas.itemconfig(score_text, text="Score: " + str(score))
         global gameIsRunning
         global happyVelocity
 
@@ -262,21 +266,27 @@ def gameOver():
         WIDTH / 2, HEIGHT / 1.8, anchor="center", window=game_over_btn
     )
 
+
 score = 0
-t = canvas.create_text(400, 50, text="Score: " + str(score), fill="white", font=("Impact", 30))
+score_text = canvas.create_text(
+    400, 50, text="Score: " + str(score), fill="white", font=("Impact", 30)
+)
+
 
 def updateScoreCount():
     global score
     score += 1
-    canvas.itemconfig(t, text="Score: " + str(score))
-    
+    canvas.itemconfig(score_text, text="Score: " + str(score))
+
 
 def startGame():
     moveCircle()
     moveBackground()
     movePipes()
 
+
 once = True
+
 
 def btn_click():
     startGame()
@@ -285,10 +295,17 @@ def btn_click():
 
 # Create a Button
 btn = tk.Button(
-    canvas, width=20, height=5, text="Start", bd="5", padx=0, pady=0, font="Impact", command=btn_click
+    canvas,
+    width=20,
+    height=5,
+    text="Start",
+    bd="5",
+    padx=0,
+    pady=0,
+    font="Impact",
+    command=btn_click,
 )
 btn_window = canvas.create_window(WIDTH / 2, HEIGHT / 1.8, anchor="center", window=btn)
 
 
 root.mainloop()
-
