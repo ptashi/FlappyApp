@@ -1,6 +1,7 @@
 import tkinter as tk
 import random
 from PIL import Image, ImageTk
+import winsound as ws
 
 print("Hello Bellolo")
 """
@@ -46,6 +47,7 @@ def jump(event):
             happyVelocity = -JUMP_POWER
             canvas.itemconfig(happy, image=happyDown)
             canvas.after(100, jump_ending_animation)
+            ws.PlaySound("assets/jumpSoundEffect.wav", ws.SND_ASYNC)
 
 
 root.bind("<Key>", jump)
@@ -143,7 +145,7 @@ def moveCircle():
 listOfPipes = []  # List of all the pipes
 
 
-def spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe, bottomOfTheTopPipe):
+def spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe):
     top_pipe = canvas.create_rectangle(
         xOfPipe, 0, xOfPipe + widthOfPipe, gapPosition, fill="darkgreen"
     )
@@ -161,7 +163,6 @@ xOfPipe = 800
 widthOfPipe = 50
 gapOfPipe = 120
 gapPosition = HEIGHT / 2 - gapOfPipe / 2
-bottomOfTheTopPipe = 500
 gapBetweenPipesHorizontally = 300
 
 
@@ -174,9 +175,9 @@ def movePipes():
     global gapPosition
     gapPosition = random.randint(int(gapOfPipe * 0.5), int(HEIGHT - gapOfPipe * 1.5))
     if len(listOfPipes) == 0:
-        spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe, bottomOfTheTopPipe)
+        spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe)
     elif canvas.coords(listOfPipes[-1][0])[0] < WIDTH - gapBetweenPipesHorizontally:
-        spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe, bottomOfTheTopPipe)
+        spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe)
 
     listOfPipesCopy = listOfPipes.copy()
     for pipe in listOfPipesCopy:
