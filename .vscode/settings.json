@@ -1,0 +1,4 @@
+{
+	"code-runner.runInTerminal": false,
+	"code-runner.executorMap": { "python": "$pythonPath $fullFileName" }
+}

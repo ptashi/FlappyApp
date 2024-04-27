@@ -112,7 +112,7 @@ def moveCircle():
         top_pipe_coords = canvas.coords(pipe[0])
         bottom_pipe_coords = canvas.coords(pipe[1])
 
-        if coordsOfHappy[0] > top_pipe_coords[2]:
+        if coordsOfHappy[0] > top_pipe_coords[0]:
             updateScoreCount()
 
         # Checks if the left side of the bird is to the left of the right side of the top pipe.
@@ -225,6 +225,9 @@ def gameOver():
     game_over_animation()
 
     def game_over_btn_click():
+        global score
+        score = 0
+        canvas.itemconfig(t, text="Score: " + str(score))
         global gameIsRunning
         global happyVelocity
 
@@ -266,15 +269,14 @@ def updateScoreCount():
     global score
     score += 1
     canvas.itemconfig(t, text="Score: " + str(score))
-    canvas.tag_raise(t)
     
 
 def startGame():
-    updateScoreCount()
     moveCircle()
     moveBackground()
     movePipes()
 
+once = True
 
 def btn_click():
     startGame()
@@ -283,9 +285,10 @@ def btn_click():
 
 # Create a Button
 btn = tk.Button(
-    canvas, width=20, height=10, text="Start", bd="5", padx=0, pady=0, command=btn_click
+    canvas, width=20, height=5, text="Start", bd="5", padx=0, pady=0, font="Impact", command=btn_click
 )
 btn_window = canvas.create_window(WIDTH / 2, HEIGHT / 1.8, anchor="center", window=btn)
 
 
 root.mainloop()
+
