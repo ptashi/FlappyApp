@@ -84,6 +84,7 @@ happyFalling = ImageTk.PhotoImage(happyFalling)
 
 happy = canvas.create_image(100, HEIGHT / 2, anchor="center", image=happyUp)
 
+coordsOfHappy = canvas.bbox(happy)
 
 def moveCircle():
     if not gameIsRunning:
@@ -110,6 +111,9 @@ def moveCircle():
     for pipe in listOfPipes:  # pipe = [top_pipe, bottom_pipe]
         top_pipe_coords = canvas.coords(pipe[0])
         bottom_pipe_coords = canvas.coords(pipe[1])
+
+        if coordsOfHappy[0] > top_pipe_coords[2]:
+            updateScoreCount()
 
         # Checks if the left side of the bird is to the left of the right side of the top pipe.
         # Checks if the right side of the bird is to the right of the left side of the top pipe
@@ -216,7 +220,7 @@ def gameOver():
     global gameIsRunning
     gameIsRunning = False
     game_over_text = canvas.create_text(
-        400, 400, text="GAME OVER", fill="red", font=("Impact", 40)
+        400, 350, text="GAME OVER", fill="red", font=("Impact", 50)
     )
     game_over_animation()
 
@@ -244,7 +248,7 @@ def gameOver():
     game_over_btn = tk.Button(
         canvas,
         width=20,
-        height=10,
+        height=2,
         text="Play Again",
         bd="5",
         padx=0,
@@ -252,11 +256,21 @@ def gameOver():
         command=game_over_btn_click,
     )
     game_over_btn_window = canvas.create_window(
-        WIDTH / 2, HEIGHT / 2, anchor="center", window=game_over_btn
+        WIDTH / 2, HEIGHT / 1.8, anchor="center", window=game_over_btn
     )
 
+score = 0
+t = canvas.create_text(400, 50, text="Score: " + str(score), fill="white", font=("Impact", 30))
+
+def updateScoreCount():
+    global score
+    score += 1
+    canvas.itemconfig(t, text="Score: " + str(score))
+    canvas.tag_raise(t)
+    
 
 def startGame():
+    updateScoreCount()
     moveCircle()
     moveBackground()
     movePipes()
@@ -271,7 +285,7 @@ def btn_click():
 btn = tk.Button(
     canvas, width=20, height=10, text="Start", bd="5", padx=0, pady=0, command=btn_click
 )
-btn_window = canvas.create_window(WIDTH / 2, HEIGHT / 2, anchor="center", window=btn)
+btn_window = canvas.create_window(WIDTH / 2, HEIGHT / 1.8, anchor="center", window=btn)
 
 
 root.mainloop()
