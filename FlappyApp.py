@@ -118,4 +118,3 @@ def gameOver():
 moveCircle()
 movePipes()
 root.mainloop()
-
