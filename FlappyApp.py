@@ -1,7 +1,8 @@
 import tkinter as tk
 import random
 from PIL import Image, ImageTk
-import winsound as ws
+import pygame
+pygame.init()
 
 print("Hello Bellolo")
 """
@@ -39,6 +40,8 @@ happyVelocity = 0
 def jump_ending_animation():
     canvas.itemconfig(happy, image=happyUp)
 
+jump_sound=pygame.mixer.Sound("assets/jumpEffect.wav")
+ding_sound=pygame.mixer.Sound("assets/dingEffect.wav")
 
 def jump(event):
     if gameIsRunning:
@@ -47,7 +50,7 @@ def jump(event):
             happyVelocity = -JUMP_POWER
             canvas.itemconfig(happy, image=happyDown)
             canvas.after(100, jump_ending_animation)
-            ws.PlaySound("assets/jumpEffect.wav", ws.SND_ASYNC)
+            jump_sound.play()
 
 
 root.bind("<Key>", jump)
@@ -119,6 +122,7 @@ def moveCircle():
         if point_given == False and coordsOfHappy[0] > top_pipe_coords[2]:
             pipe[2] = True
             updateScoreCount()
+            ding_sound.play()
 
         # Checks if the left side of the bird is to the left of the right side of the top pipe.
         # Checks if the right side of the bird is to the right of the left side of the top pipe

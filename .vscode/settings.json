@@ -1,4 +1,6 @@
 {
 	"code-runner.runInTerminal": false,
-	"code-runner.executorMap": { "python": "$pythonPath $fullFileName" }
+	"code-runner.executorMap": { "python": "$pythonPath $fullFileName" },
+	"python.terminal.activateEnvironment": true,
+	"python.terminal.activateEnvInCurrentTerminal": true
 }
