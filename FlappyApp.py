@@ -4,16 +4,13 @@ from PIL import Image, ImageTk
 import pygame
 pygame.init()
 
-print("Hello Bellolo")
 """
 TODO: 
-- Add a score counter
 - Add more characters
 - Add a game over screen
 - Add a start screen (includes character selection, etc.)
 BONUS TODO:
 - Add a high score counter
-- Add a jump sound
 - Add a game over sound
 - Add a settings screen (to disable sound, change background, etc.)
 - Add a background music
@@ -36,12 +33,14 @@ canvas.pack()
 
 happyVelocity = 0
 
-
 def jump_ending_animation():
     canvas.itemconfig(happy, image=happyUp)
 
 jump_sound=pygame.mixer.Sound("assets/jumpEffect.wav")
+jump_sound.set_volume(0.5)
 ding_sound=pygame.mixer.Sound("assets/dingEffect.wav")
+ding_sound.set_volume(0.5)
+
 
 def jump(event):
     if gameIsRunning:
@@ -283,31 +282,24 @@ def updateScoreCount():
     score += 1
     canvas.itemconfig(score_text, text="Score: " + str(score))
 
-
 def startGame():
     moveCircle()
     moveBackground()
     movePipes()
 
-
-once = True
-
-
 def btn_click():
     startGame()
     btn.destroy()
-
 
 # Create a Button
 btn = tk.Button(
     canvas,
     width=20,
-    height=5,
+    height=2,
     text="Start",
     bd="5",
     padx=0,
     pady=0,
-    font="Impact",
     command=btn_click,
 )
 btn_window = canvas.create_window(WIDTH / 2, HEIGHT / 1.8, anchor="center", window=btn)
