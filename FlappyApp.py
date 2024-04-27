@@ -47,7 +47,7 @@ def jump(event):
             happyVelocity = -JUMP_POWER
             canvas.itemconfig(happy, image=happyDown)
             canvas.after(100, jump_ending_animation)
-            ws.PlaySound("assets/jumpSoundEffect.wav", ws.SND_ASYNC)
+            ws.PlaySound("assets/jumpEffect.wav", ws.SND_ASYNC)
 
 
 root.bind("<Key>", jump)
