@@ -164,7 +164,7 @@ def spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe):
 
 xOfPipe = 800
 widthOfPipe = 50
-gapOfPipe = 120
+gapOfPipe = 130
 gapPosition = HEIGHT / 2 - gapOfPipe / 2
 gapBetweenPipesHorizontally = 300
 
