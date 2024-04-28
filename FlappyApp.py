@@ -176,7 +176,7 @@ def movePipes():
     canvas.tag_raise(score_text)
 
     global gapPosition
-    gapPosition = random.randint(int(gapOfPipe * 0.5), int(HEIGHT - gapOfPipe * 1.5))
+    gapPosition = random.randint(int(gapOfPipe * 1.5), int(HEIGHT - gapOfPipe * 1.5))
     if len(listOfPipes) == 0:
         spawnNewPipe(xOfPipe, widthOfPipe, gapPosition, gapOfPipe)
     elif canvas.coords(listOfPipes[-1][0])[0] < WIDTH - gapBetweenPipesHorizontally:
